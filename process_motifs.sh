@@ -49,15 +49,14 @@ stage_00() {
 stage_01() {
   echo "Stage 01: Setting up promoters_tss.bed"
   SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+  TSS_BED="${1:-${SCRIPT_DIR}/tss.bed}"
 
   mkdir -p ./stages/stage_01.preprocess/
   mkdir -p ./stages/stage_01/
 
-  TSS_BED="${SCRIPT_DIR}/tss.bed"
-
   if [[ ! -f "${TSS_BED}" ]]; then
-      echo "Error: ${TSS_BED} not found. Please run annotation.py first to generate tss.bed."
-      exit 1
+        echo "Error: ${TSS_BED} not found. Please run annotation.py first."
+        exit 1
   fi
 
   rm -f ./stages/stage_01/promoters_tss.bed
