@@ -13,7 +13,7 @@ with open('transcript_to_gene.tsv', 'r') as f:
 os.makedirs('stage_04_1', exist_ok=True)
 
 # Find all input files matching the pattern
-input_files = glob.glob('../stage_04/occupancy@*@promoters_250u_10d.bed')
+input_files = glob.glob('stage_04/occupancy@*@promoters_250u_10d.bed')
 
 for input_file in input_files:
     filename = os.path.basename(input_file)
