@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-GTF_FILE="../gencode.v44.annotation.gtf"
+GTF_FILE="gencode.v44.annotation.gtf"
 OUTPUT_FILE="transcript_to_gene.tsv"
 
 echo -e "transcript_id\tgene_id" > "$OUTPUT_FILE"
