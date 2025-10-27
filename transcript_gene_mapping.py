@@ -1,4 +1,4 @@
-gtf_file = "../gencode.v44.annotation.gtf"
+gtf_file = "gencode.v44.annotation.gtf"
 output_file = "transcript_to_gene.tsv"
 
 transcript_to_gene = {}
