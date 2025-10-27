@@ -2,8 +2,7 @@
 set -ex
 
 # Step 1: Run the annotation script to process the GTF file
-python annotation.py \
-    --gtf gencode.v44.annotation.gtf \
+python annotation.py gencode.v44.annotation.gtf \
     --annotation-source gencode
 
 # Step 2: Process motif data
