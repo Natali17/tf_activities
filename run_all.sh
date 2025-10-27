@@ -9,7 +9,7 @@ python annotation.py gencode.v44.annotation.gtf \
 bash process_motifs.sh
 
 # Step 3: Map transcripts to genes
-python transcript_gene_mapping.py
+bash transcript_gene_mapping.sh
 
 # Step 4: Convert transcript-level occupancy to gene-level occupancy
 python trans_occ_to_gene_occ.py
