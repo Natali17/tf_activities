@@ -15,6 +15,7 @@ gzip -d gencode.v44.annotation.gtf.gz
 - `transcript_gene_mapping.py`: mapping transcripts to genes
 - `trans_occ_to_gene_occ.py`: transcript-to-gene occupancy transformation
 - `gene_occupancy_avg.py`: gene occupancy averages calculation
+  OR `gene_besthit_max.py`: gene besthit maximum calculation
 
 ### Expression data processing
 - `tcga_counts_to_log2tmm.R`: TCGA expression preprocessing
