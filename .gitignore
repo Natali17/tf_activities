@@ -1,0 +1,4 @@
+stage*
+*.tsv
+*.bed
+*gtf
