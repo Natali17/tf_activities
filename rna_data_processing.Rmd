@@ -1,6 +1,5 @@
 ---
 title: "**RNA-seq data processing pipeline**"
-author: "Natalia Kropivnitskaya"
 date: "2025-11-12"
 output: html_notebook
 ---
