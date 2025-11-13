@@ -2,3 +2,5 @@ stage*
 *.tsv
 *.bed
 *gtf
+.RData
+.Rhistory
