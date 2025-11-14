@@ -33,7 +33,7 @@ rownames(dedup.ch.type.cell_lines) <- dedup.ch.type.cell_lines$gene_name
 # Unite counts
 total_counts <- as.data.frame(cbind(as.matrix(dedup.ch.type.tcga), as.matrix(dedup.ch.type.cell_lines))) #20328 genes, 468 samples
 rownames(total_counts) <- total_counts$gene_name
-all_counts$gene_name <- NULL
+total_counts$gene_name <- NULL
 
 ### PART 3. Metadata preparation and synchronization
 # Prepare TCGA metadata
@@ -72,25 +72,26 @@ total_meta <- total_meta %>% mutate(protocol = if_else(sample_id == "SRR11539513
 # Ensure all count data is numeric for calculation
 total_counts_numeric <- total_counts %>% mutate(across(everything(), as.numeric))
 
-# --- Filter non-variable genes (variance > 0) ---
-gene_variance <- apply(total_counts_numeric, 1, var)
-genes_to_keep <- which(gene_variance > 0)
-filtered_counts_numeric <- total_counts_numeric[genes_to_keep, ] #20242
+# SKIP --- Filter non-variable genes (variance > 0) ---
+#gene_variance <- apply(total_counts_numeric, 1, var)
+#genes_to_keep <- which(gene_variance > 0)
+#filtered_counts_numeric <- #total_counts_numeric[genes_to_keep, ] #20242
 
+filtered_counts_numeric <- total_counts_numeric
 # --- Calculate protocol bias ratio ---
 # Used to identify genes with extreme differences in expression between sequencing protocols
 polyA_sum <- rowSums(filtered_counts_numeric[ , total_meta$sample_id[total_meta$protocol == 'poly-A']], na.rm = TRUE) # poly_A samples (TCGA + some cell-lines) are selected and summed numerically (424)
 total_sum <- rowSums(filtered_counts_numeric[ , total_meta$sample_id[total_meta$protocol == 'Total RNA']], na.rm = TRUE) # Total samples (some cell-lines) are selected and summed numerically (33)
 
 # Calculate log10 ratio (Total RNA / poly-A). Add a small constant to avoid division/log of zero
-zeros = log10((total_sum + 10^-10)/polyA_sum)
-sum((zeros == Inf)) #404
+log_protocol_ratio = log10((total_sum + 10^-10)/polyA_sum)
+sum((log_protocol_ratio == Inf)) #490
 
 # Identify genes that are not expressed in poly-A (result in Inf ratio)
-genes_to_use <- names(which(log_protocol_ratio != Inf))
+genes_to_use <- names(which(log_protocol_ratio != Inf)) #19838
 
 # --- Initial DGEList creation and filtering ---
-Total.DGE <- DGEList(filtered_counts_numeric[names(which(zeros != Inf)), total_meta$sample_id], 
+Total.DGE <- DGEList(filtered_counts_numeric[names(which(log_protocol_ratio != Inf)), total_meta$sample_id], 
                      genes = genes_to_use,
                      samples = total_meta$sample_id,
                      group = unlist(total_meta$cluster, use.names = F))
@@ -113,7 +114,16 @@ nonbatched <- log1p(cpm(Total.DGE))
 
 # Batch correction
 # Removes the variation attributed to the 'protocol' factor from the log-CPM expression
-debatched = removeBatchEffect(log1p(cpm(Total.DGE)),batch = total_meta$protocol)
+
+total_meta <- total_meta %>% mutate(source = if_else(cluster %in% c("DDF Tumor", "Standard Tumor", "NAT"), "TCGA", "Cell_Line"))
+
+design_matrix <- model.matrix(~source, data = total_meta)
+
+debatched = removeBatchEffect(
+  log1p(cpm(Total.DGE)),
+  batch = total_meta$protocol,
+#  design = design_matrix
+)
 
 # Save normalized log-CPM matrix
 write.table(debatched, file = "debatched_without_5.tsv",
