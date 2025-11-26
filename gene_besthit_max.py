@@ -15,7 +15,7 @@ all_gene_ids = set()
 all_samples = []
 
 # Find all besthit files (adjust pattern as needed)
-input_files = glob.glob(os.path.join(input_dir, 'besthit@*@promoters_250u_10d_1.bed'))
+input_files = glob.glob(os.path.join(input_dir, 'besthit-logpval@*@promoters_250u_10d_1.bed'))
 
 for filepath in input_files:
     filename = os.path.basename(filepath)

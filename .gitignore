@@ -5,3 +5,5 @@ stage*
 .RData
 .Rhistory
 old_rcodes/
+new_flanks_process_motifs.sh
+nonclstr/

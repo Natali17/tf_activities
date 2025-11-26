@@ -71,10 +71,12 @@ def parse_gtf(gtf_file, tsl_filter=None, mane_filter=None, annotation_source='ge
                 transcript_id = attrs.get('transcript_id')
                 gene_id = attrs.get('gene_id')
                 gene_name = attrs.get('gene_name', gene_id)
+                transcript_name = attrs.get('transcript_name', transcript_id)
                 if transcript_id and gene_id:
                     transcripts[transcript_id] = {
                         'gene_id': gene_id,
                         'gene_name': gene_name,
+                        'transcript_name': transcript_name,
                         'contig': rec.contig,
                         'start': rec.start,
                         'end': rec.end,
@@ -141,7 +143,7 @@ def main():
             strand = transcript['strand']
             chrom_start = tss - 1  # BED is 0-based, half-open
             chrom_end = tss
-            name = transcript_id
+            name = transcript['transcript_name']
             score = "0"
             if not contig.startswith("chr"):
                 contig = f"chr{contig}"
