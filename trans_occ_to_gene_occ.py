@@ -69,7 +69,7 @@ def main():
     os.makedirs('stage_04_1', exist_ok=True)
 
     # Find all input files matching the pattern
-    input_files = glob.glob('stages/stage_04/besthit-logpval@*@promoters_250u_10d.bed')
+    input_files = glob.glob('stages/stage_04/occupancy@*@promoters_250u_10d.bed')
 
     if not input_files:
         print("Warning: No input files found in 'stage_04/'. Check the path and file pattern.")

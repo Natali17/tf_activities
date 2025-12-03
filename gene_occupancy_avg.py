@@ -8,7 +8,7 @@ from statistics import mean
 input_dir = 'stage_04_1'
 
 # Output TSV file
-output_file = 'gene_occupancy_nonclstr_avg.tsv'
+output_file = 'gene_occupancy_avg.tsv'
 
 # Nested dictionary to store average occupancy per gene per sample
 # Structure: {gene_id: {sample_name: occupancy_avg}}
