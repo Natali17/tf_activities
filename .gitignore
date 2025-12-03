@@ -3,6 +3,7 @@ stage*
 *.bed
 *gtf
 .RData
+*.R
 .Rhistory
 old_rcodes/
 new_flanks_process_motifs.sh
