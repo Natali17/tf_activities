@@ -2,22 +2,22 @@
 set -ex
 
 # Step 1: Run the annotation script to process the GTF file
-python annotation.py gencode.v44.annotation.gtf \
-    --annotation-source gencode
+python gtf_mapping.py gencode.v44.annotation.gtf \
+    --annotation-source gencode --use-names
 
 # Step 2: Process motif data
-bash process_motifs.sh
+bash process_motifs.sh # {pipeline_core.sh, make_flanks.sh}
 
 # Step 3: Map transcripts to genes
-python transcript_gene_mapping.py
+python transcript_gene_mapping.py 
 
 # Step 4: Convert transcript-level occupancy to gene-level occupancy
-python trans_occ_to_gene_occ.py
+python trans_occ_to_gene_occ.py --use-names
 
 # Step 5: Calculate gene occupancy averages
-python gene_occupancy_avg.py
+python aggregate_by_metrics.py #OR aggregate_less_memory.py for big .tsv files
 
 # Step 5: Calculate gene occupancy averages
-python filtered_gene_id.py tcga_log2tmm.tsv gene_occupancy_matrix_avg.tsv
+bash filtering_pipeline.sh #
 
 

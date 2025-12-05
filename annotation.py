@@ -64,7 +64,7 @@ def parse_gtf(gtf_file, tsl_filter=None, mane_filter=None, annotation_source='ge
                 if tsl not in tsl_filter:
                     continue
 
-            if mane_filter and 'MANE Select' not in attrs.get('tag', ''):
+            if mane_filter and 'MANE_Select' not in attrs.get('tag', ''):
                 continue
 
             if rec.feature == 'transcript':

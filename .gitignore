@@ -6,5 +6,5 @@ stage*
 *.R
 .Rhistory
 old_rcodes/
-new_flanks_process_motifs.sh
-nonclstr/
+HCC/
+SCLC/
